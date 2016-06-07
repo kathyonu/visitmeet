@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+# code: app/helpers/users_helper.rb
+# test: none required as there are no helpers
+#
 # == Schema Information
 #
 # Table name: users
@@ -33,6 +36,6 @@
 #  provider               :string
 #  uid                    :string
 #
-
+# user helper methods
 module UsersHelper
 end

@@ -10,11 +10,17 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// Sprockets concatenates all JavaScript files into this application.js file
+// Sprockets concatenates all CSS files into one master application.css file
+//
 //= require gmaps/google
 //= require jquery
+//= require best_in_place
+//= require jquery-ui
+//= require best_in_place.jquery-ui
 //= require jquery_ujs
 //= require underscore
-//= require turbolinks
 //= require jquery.geocomplete
 //= require bootstrap-sprockets
+//= require turbolinks
 //= require_tree .

@@ -10,8 +10,8 @@ fr:
       no_invitations_remaining: "Il n'y a plus d'invitation restante"
       invitation_removed: 'Votre invitation a été supprimée.'
       new:
-        header: "Envoyer une invitation"
-        submit_button: "Envoyer l'invitation"
+        header: "Envoyer une Invitation"
+        submit_button: "Envoyer l'Invitation"
       edit:
         header: "Définissez votre mot de passe"
         submit_button: "Valider mon mot de passe"

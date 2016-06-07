@@ -34,6 +34,8 @@ Rails.application.configure do
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
+  # Generate digests for assets URLs. This is planned for deprecation.
+  # ref : http://guides.rubyonrails.org/asset_pipeline.html
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
@@ -74,18 +76,8 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.mandrillapp.com',
-    port: 587,
-    domain: Rails.application.secrets.domain_name,
-    authentication: 'plain',
-    enable_starttls_auto: true,
-    user_name: Rails.application.secrets.email_provider_username,
-    password: Rails.application.secrets.email_provider_apikey
-  }
-
   # ActionMailer Config
-  config.action_mailer.default_url_options = { host: 'smtp.sendgrid.net' }
+  config.action_mailer.default_url_options = { host: 'visitmeet.herokuapp.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
@@ -98,9 +90,14 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     storage: :s3,
-    # TODO: explanation of below : reference for below ?
-    # HOW TO determine WHEN it is unnecessary ? -kathyonu
-    # :s3_host_name => 'REMOVE_THIS_LINE_IF_UNNECESSARY',
     bucket: 'visitmeet'
   }
+
+  # see : config/exception_notification.yml
+  # ref : http://edgeguides.rubyonrails.org/4_2_release_notes.html
+  # Introduced Rails::Application.config_for to load a configuration
+  #  for the current environment.
+  Rails.application.configure do
+    config.middleware.use ExceptionNotifier, config_for(:exception_notification)
+  end
 end
