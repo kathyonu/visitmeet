@@ -19,9 +19,9 @@ module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def github
       # Implement this in model : see ref above
-      user = User.from_omniauth(request.env['omniauth.auth'])
+      @user = User.from_omniauth(request.env['omniauth.auth'])
 
-      if user.persisted?
+      if @user.persisted?
         # reference regarding `:event => :authentication` option
         # http://stackoverflow.com/questions/9221390/what-does-event-authentication-do/13389324#13389324
         sign_in_and_redirect users_profile_path # , :event => :authentication # this will throw if @user is not activated

@@ -84,4 +84,30 @@ class ApplicationController < ActionController::Base
     # url_for method wherever needed.
     # http://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Base.html#method-i-default_url_options
   end
+
+  private
+
+  def access_whitelist
+    current_user.try(:admin?) || current_user.try(:door_super?)
+  end
+
+  # class Devise::ParameterSanitizer < Devise::ParameterSanitizer
+  # def initialize(*)
+  def update_sanitized_params
+    super
+    permit(:sign_in, keys: [:param1, :param2, :param3])
+    permit(:sign_in, keys: [:email, :password, :remember_me])
+    permit(:sign_up, keys: [:name, :email, :password, :password_confirmation]) # :coupon, :stripe_token
+    permit(:account_update, keys: [:name, :email, :password, :password_confirmation, :remember_me, :current_password])
+  end
+  
+
+  # def update_sanitized_params
+  #  # permit(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
+  #  # permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) } # :coupon, :stripe_token
+  #  # permit(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :remember_me, :current_password) }
+  #  devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
+  #  devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) } # :coupon, :stripe_token
+  #  devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :remember_me, :current_password) }
+  # end
 end

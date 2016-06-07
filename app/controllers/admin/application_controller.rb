@@ -32,8 +32,13 @@ module Admin
     include ActionController::Helpers
     # this line is here for testing purposes, thank you -ko
     # http_basic_authenticate_with name: ENV.fetch("ADMIN_NAME"), password: ENV.fetch("ADMIN_PASSWORD")
-    # TODO: if we add pages, this next line will become unwieldy
-    before_action :authenticate_admin!, except: ['/pages#about']
+    # TODO: if we add pages, this next line will become unwieldy, commented out on 20160604
+    # before_action :authenticate_admin!, except: ['/pages#about']
+    #    
+    # routes to the login / signup if not authenticated
+    # before_action :authenticate_admin!, except: ['/pages#about']
+    # 20160604 commented above out as it is possibly the source of all failures in signup tests
+
     before_action :update_sanitized_params, if: :devise_controller?
     protect_from_forgery with: :exception
 
@@ -55,7 +60,7 @@ module Admin
       params[:per_page] || 20
     end
 
-    # Bishisht, these next three methods might not need to be here, 
+    # Bishisht, these next three methods might not need to be here,
     # and or may be incorrect and need to be tweaked. I cannot say
     # these methodes are tested : compare the four methods in this file:
     # app/helpers/admin/application_helper.rb
@@ -124,9 +129,10 @@ module Admin
     end
 
     def update_sanitized_params
-      devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
-      devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) } # :coupon, :stripe_token
-      devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :remember_me, :current_password) }
+      # TODO: note made on these being deprecated : 20160605 
+      devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
+      devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) } # :coupon, :stripe_token
+      devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :remember_me, :current_password) }
     end
   end
 end

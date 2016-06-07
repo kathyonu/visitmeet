@@ -41,8 +41,7 @@ Product.create(title: 'Supporting Part in Documentary',
                description: 'You can support the filmings of an ongoing research documentary, and appear in it if you wish, in a supporting role',
                category: 'Travels',
                category_id: 2,
-               price: 35_000_00
-              )
+               price: 3500000) # prices are cents, for future stripe use
 product = Product.first
 puts 'the first Offer is an extremely unique art of AWARENESS, created in a new art form specifically for VisitMeet'
 puts 'title       : ' + product.title

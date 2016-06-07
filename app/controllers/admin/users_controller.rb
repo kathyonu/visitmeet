@@ -14,11 +14,11 @@ module Admin
     # To customize the behavior of this controller,
     # simply overwrite any of the RESTful actions. For example:
     #
-    def index
-      super
-      @resources = User.all.paginate(10, params[:page])
-      # @users
-    end
+    # def index
+    #  super
+    #  @resources = User.all.paginate(10, params[:page])
+    #  # @users
+    # end
 
     # Define a custom finder by overriding the `find_resource` method:
     # def find_resource(param)

@@ -43,6 +43,9 @@ class User < ActiveRecord::Base
   enum role: [:admin, :user, :guide, :traveller]
   after_initialize :set_default_role, if: :new_record?
 
+  # http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html
+  # has_secure_password
+
   # ref : https://github.com/intridea/omniauth/wiki/FAQ
   # User.connection
   # skip_before_filter :verify_authenticity_token, only: :create
@@ -64,7 +67,7 @@ class User < ActiveRecord::Base
   end
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.provider = auth.provider
       user.uid = auth.uid
       user.email = auth.info.email

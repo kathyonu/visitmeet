@@ -110,9 +110,13 @@ feature 'Sign Up', :devise, js: true do
     expect(current_path).to eq '/'
 
     @user = User.last
+    # new test for new change: 20160521 -ko
+    expect(page).to have_content 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.'
+    expect(page).to have_content I18n.t 'devise.registrations.signed_up_but_unconfirmed'
+    # documenting changes and keeping possible tests, for now -ko
     # expect(page).to have_content "Welcome, #{@user.email}"
     # TODO: get these two working again
-    expect(page).to have_content I18n.t 'devise.registrations.signed_up'
+    # expect(page).to have_content I18n.t 'devise.registrations.signed_up'
     # TODO: FactoryGirl confirms the user when created
     # this means we have to write tests for the confirmation process
     # expect(page).to have_content 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.'

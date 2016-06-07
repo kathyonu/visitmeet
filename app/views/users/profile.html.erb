@@ -1,31 +1,30 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <h1 class="lead text-center well"><%= current_user.email %>'s Profile</h1>
       <div class="row">
         <div class="col-md-5">
           <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" />
-		  <h3 class="text-center">
-		    Full Name:
-			<br>
-			<%= best_in_place @user, :name %>
-		  </h3>
-	      <h1 class="lead text-center well"><%= current_user.email.capitalize %>'s Profile</h1>
+	        <h3 class="text-center">
+		        Full Name:
+		        <br>
+		        <%= best_in_place @user, :name %>
+		      </h3>
+          <h2 class="lead text-center well"><%= current_user.email.downcase %>'s Profile</h2>
         </div>
         <div class="col-md-7">
           <div class="jumbotron well">
-		    <h4>Bio:</h4>
+		        <h4>Bio:</h4>
             <p>
-			  <%= best_in_place @user, :bio, as: :textarea %>
- 			</p>
+              <%= best_in_place @user, :bio, as: :textarea %>
+            </p>
+          </div>
+          <div class='repo'>
+		        Our Code Repository
           </div>
           <p>
-		    <a href="https://github.com/bishishtbhatta/visitmeet">Our Code Repository</a>
-		  </p>
-          <p>
-		    <a class="btn btn-primary btn-large" href="#">Learn more</a>
-		  </p>
-		</div>
+		        <a class="btn btn-primary btn-large" href="https://github.com/VisitMeet/visitmeet">Learn more</a>
+          </p>
+		    </div>
       </div>
     </div>
   </div>

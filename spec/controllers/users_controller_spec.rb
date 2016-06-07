@@ -2,11 +2,12 @@
 # code: app/controllers/users_controller.rb
 # test: spec/controllers/users_controller_spec.rb
 #
-# Two routes exist:
+# Two routes to views currently exist:
 # # get 'profile/index' : in profile controller
 # # get 'users/profile' : in  users  controller
 #
 # TODO: the following is the main cause of errors on 20160507
+# NOTICE: AUTHENTICATE, AUTHENTICATED AND A THIRD METHOD WERE NEVER ENTERED
 # authenticate! problem and possible cause and solution reference:
 # https://github.com/hassox/warden/wiki/Setup
 # -----------------------------------------------------------------------------------------
@@ -40,9 +41,11 @@
 # Testing troubles? Use Pry: uncomment `require 'pry'` below, add on a line by
 # itself, the `binding.pry` command after the it/do statement, and run the test,
 # Pry will open your console, you are now inside your test environment.
-# require 'pry'
+# 
+require 'pry'
 include Devise::TestHelpers
 include Features::SessionHelpers
+include Selectors
 include Warden::Test::Helpers
 Warden.test_mode!
 
@@ -227,7 +230,7 @@ describe UsersController, :devise, type: :controller, controller: true, js: true
         pending 'we are currently redirecting to nowhere upon login when using login_as'
         # Template:
         # subject { post :create, :widget => { :name => "Foo" } }
-        expect { subject { post :create, user: valid_user_attributes } }. to redirect_to action: :profile, id: assigns(@user.id)
+        expect { subject { post :create, user: valid_user_attributes } }.to redirect_to action: :profile, id: assigns(@user.id)
 
         # subject { post :create, user: valid_user_attributes }
         # expect(subject).to redirect_to action: :profile, id: assigns(@user.id)
@@ -441,9 +444,6 @@ describe UsersController, :devise, type: :controller, controller: true, js: true
         expect(page).to have_content I18n.t 'devise.sessions.signed_in'
         expect(page).to have_content 'Our Open Source Code Repository'
         expect(response).to render_template('index')
-
-        # Bishisht, I don't think the assigns tests can be achieved because we are using Profile
-        # expect(assigns(:users)).to eq([user])
 
         # ref : http://stackoverflow.com/questions/16133166/what-does-assigns-mean-in-rspec
         # get 'profile'
@@ -906,4 +906,150 @@ describe UsersController, :devise, type: :controller, controller: true, js: true
       # expect(page).to have_content I18n.t 'devise.sessions.signed_in'
     end # GET #show finds right user
   end
-end
+
+  describe 'invitation tokens are accounted for' do
+    it 'from point of token_created to point of token_first_assignment' do
+      pending 'write test codes'
+    end
+
+    it 'from point of token_first_assignment to point of token_first_assignment_acceptance' do
+      pending 'write test codes'
+    end
+
+    it 'from point of token_first_assignment to point of token_first_assignment_acceptance_expiry' do
+      pending 'write test codes'
+    end
+
+    it 'from point of token_acceptance to point of token_invalidation_by_vm' do
+      pending 'write test codes showing token invalidation for any reason'
+    end
+
+    it 'from point of any_token_expiry_or_invalidation_by_vm to point of token recreation' do
+      pending 'write test codes'
+      # we need valid user who extended an IT and it was not accepted/used and so expired
+      @user = FactoryGirl.build(:user, email: 'expiredtoken@example.com')
+      # notice role in the database is an integer and here we feed it a string
+      #     role :integer
+      @user.role = 'user'
+      # this is made possible by the power of the Enum : see the model
+      @user.save!
+      # vm now assigns the new user their first Invitation_Token affectionately called an IT.
+      # what is generating the IT ?
+      @user.invitation_token = 'how-is-invITational_token=generated'
+      # @user.invitation_created_at
+      # @user.invitation_sent_at
+      # @user.invitation_accepted_at
+      # @user.invitation_limit
+      # @user.invited_by_id
+      # @user.invited_by_type
+      # @user.invitations_count 
+      # @user.uid
+
+      expect(any_token_expiry_or_invalidation_by_vm.first_user_id).to eq @user.id 
+      expect(any_token_expiry_or_invalidation_by_vm.first_user_id).to eq @user.find_by_it(any_token_expiry_or_invalidation_by_vm) 
+    end
+
+    it 'from point of exiting_token_expiry to point of exisiting_token_first_regeneration' do
+      pending 'write test codes'
+    end
+
+    it 'from point of exiting_token_withdrawn to point of exisiting_token_first_regeneration' do
+      pending 'write test codes'
+    end
+
+    it 'from point of exiting_token_cancellation by user to point of exisiting_token_first_regeneration' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_banked to recreated_token_first_offer_date' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_offer_date to recreated_token_first_acceptance_date' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_banked to recreated_token_first_offer_amount' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_offer_amount to point of recreated_token_first_acceptance_amount' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_offer_amount to point of recreated_token_first_withdrawn_rebanked' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_offer_amount to point of recreated_token_first_exchanged' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_exchanged to point of recreated_token_first_exchanged_close_date' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_exchanged_close_date to point of recreated_token_first_exchanged_arbitration_open_date' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_exchanged_arbitration_open_date to point of recreated_token_first_exchanged_arbitration_resolved_date' do
+      pending 'write test codes'
+    end
+
+    it 'from point of recreated_token_first_exchanged_arbitration_resolved_date to point of db action upon any fraud' do
+      pending 'write test codes'
+    end
+  end
+
+  # learning reference : https://teamtreehouse.com/community/loginpath-vs-newusersessionpath
+  describe 'basic controller tests' do
+    it 'test user identity methods '
+      pending 'an exercise in test writing without references'
+    end
+
+    # in this app, we GET user profile, not user new
+    # it 'test "should get new"' do
+    it 'test "should get profile"' do
+      pending 'write test showing how user arrives at their /user/profile'
+      # first is to create a user
+      # second is to navigate a user to the sign in page
+      # third is to have user fill_in their email and password
+      # fourth is to have user click_on the Sign in button
+      # fifth is to verify user redirected to their profile, or ..
+      # fifth is to have user visit their profile page
+      # in real sign up, you are redirected
+      # identify the logged-in redirect code location: ________
+    end
+
+    it 'test "should be redirected when not logged in"' do
+      pending 'without referencing anything write this test'
+      # identify the non-logged-in redirect code location: _______
+    end
+
+    # in this app, we GET user profile, not user new
+    # it 'test "should get new"' do
+    # it 'get :new' do
+    # # will get :profile work ?? if not, why not ?
+    it 'get :profile' do # will this work ?? if not, why not.
+      pending 'get :profile'
+      # first step is to have a user, so create the user
+      # second step is to test the redirect upon sign-in
+      # if app does not redirect to /users/profile page
+      # third step is to test where it redirects user to
+      # then from there visit the /users/profile page directly.
+      get :profile
+    end
+
+    it 'assert_response :redirect' do
+      pending 'see if you can write the test blind, no references'
+      # if you have to search a reference, note that exact ref here
+      # reference : what is an assert_response ? example:
+      # # assert_response :redirect : http//yahdyyaedy.com/usage
+    end
+
+    it 'assert_redirected_to new_user_session_path' do
+      pending 'test yourself, write the test without referencing sources'
+      # source references on assert_redirected_to : list links
+    end
+  end

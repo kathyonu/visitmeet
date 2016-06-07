@@ -95,6 +95,7 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::TestHelpers, type: :view
+  config.include IntegrationSpecHelper, type: :feature
 
   # Ref : http://stackoverflow.com/questions/13420923/configuring-warden-for-use-in-rspec-controller-specs
   # USAGE : `before { warden.set_user FactoryGirl.create(:user) }`
@@ -109,8 +110,4 @@ RSpec.configure do |config|
   config.render_views
 
   # config.assets.precompile += %w( jquery.geocomplete.js )
-
-  # Translations test setup
-  # https://robots.thoughtbot.com/better-tests-through-internationalization
-  config.include AbstractController::Translation
 end

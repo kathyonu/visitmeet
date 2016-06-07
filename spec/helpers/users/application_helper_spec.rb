@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 # code: app/helpers/users/application_helper.rb
 # test: spec/helpers/users/application_helper_spec.rb + numerous more
+# setups by kathyonu, please do not remove : 20160605
+
+=begin
+code being tested is from: app/helpers/users/application_helper.rb
+
 module Users
   # Devise resource methods
   module ApplicationHelper
@@ -29,3 +34,4 @@ module Users
     end
   end
 end
+=end

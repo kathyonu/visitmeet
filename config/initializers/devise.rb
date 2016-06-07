@@ -16,7 +16,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
   config.send_password_change_notification = false
   config.invite_for = 2.weeks
-  config.invitation_limit = nil
+  config.invitation_limit = nil # TODO: This needs to be changed to 1/mo.
   config.reconfirmable = true
   config.expire_all_remember_me_on_sign_out = true
   config.password_length = 8..60
@@ -32,8 +32,8 @@ Devise.setup do |config|
   # config.omniauth :facebook, "APP_ID", "APP_SECRET" : template
   # config.omniauth :github, "APP_ID", "APP_SECRET" : template
   # next line is for when we take the respository private for SSL cert requirements
-  # config.omniauth :github, ENV['OMNIAUTH_APP_ID'], ENV['OMNIAUTH_APP_SECRET'], scope: 'user,public_repo'
-  config.omniauth :github, '97ef5b4212154f75e8f6', 'ebe3766550855ca09b9ce311ed1f76c456359dc5', scope: 'user,public_repo'
+  config.omniauth :github, ENV['OMNIAUTH_APP_ID'], ENV['OMNIAUTH_APP_SECRET'], scope: 'user,public_repo'
+  # config.omniauth :github, '97e', 'ebe', scope: 'user,public_repo'
 
   # 20160419 : Regarding above omniauth line
   # ref : https://github.com/intridea/omniauth-github
@@ -42,7 +42,6 @@ Devise.setup do |config|
   # #   provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: "user,repo,gist"
   # # end
   # config.OmniAuth::Builder do
-  # # provider :github, ENV['GITHUB_KEY'],      ENV['GITHUB_SECRET'],                       scope: 'user,repo,gist'
-  # # provider :github, '97ef5b4212154f75e8f6', 'ebe3766550855ca09b9ce311ed1f76c456359dc5', scope: 'user,public_repo'
+  # # provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: 'user,repo,gist'
   # end
 end

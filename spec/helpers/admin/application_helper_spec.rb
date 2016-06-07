@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 # code: app/helpers/admin/application_helper.rb
-# test: spec/helpers/admin/application_helper_spec.rb
-#
-# See FAILING TESTS NOTE: spec/controllers/users_controller.rb
-# the above note concerns the NoMethodError: undefined method `authenticate!' for nil:NilClass
-#
+# test: spec/helpers/admin/application_helper_spec.rb + numerous more
+# setups by kathyonu, please do not remove : 20160605
+
+=begin
+code being tested is from: app/helpers/admin/application_helper.rb
+
 module Admin
   # Devise resource methods
   module ApplicationHelper
@@ -40,3 +41,4 @@ module Admin
     end
   end
 end
+=end
