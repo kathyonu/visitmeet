@@ -10,8 +10,14 @@ unless defined?(Spring)
 
   if (match = Bundler.default_lockfile.read.match(/^GEM$.*?^    (?:  )*spring \((.*?)\)$.*?^$/m))
     # ref for new gem paths line : https://github.com/rubygems/rubygems/issues/1551
-    Gem.paths = { 'GEM_PATH' => [Bundler.bundle_path.to_s, *Gem.path].uniq.join(File::PATH_SEPARATOR) }
-    #
+    # Gem.paths = { 'GEM_PATH' => [Bundler.bundle_path.to_s, *Gem.path].uniq.join(File::PATH_SEPARATOR) }
+    # ABOVE is current code currently producing these test results :
+    # 20160607 : 309 examples, 160 failures, 35 pending : 171 / 448 LOC (38.17%) covered : visitors
+
+    # BELOW is acts_as_shopping_cart_implementation branch line, producing these results :
+    # 20160607 : 40 examples, 0 failures, 2 pending : 48 / 656 LOC (7.32%) covered
+    Gem.paths = { 'GEM_PATH' => [Bundler.bundle_path.to_s, *Gem.path].uniq }
+
     # Gem.paths = { 'GEM_PATH' => [Bundler.bundle_path.to_s, *Gem.path.to_s].uniq }
     # 20160416 added the second .to_s above
     # Gem.paths = { 'GEM_PATH' => [Bundler.bundle_path.to_s, *Gem.path].uniq }
